@@ -4,6 +4,7 @@
 /node_modules
 /.pnp
 .pnp.js
+/pocketbase_0.8
 
 # testing
 /coverage

@@ -1,6 +1,9 @@
 import { type inferAsyncReturnType } from "@trpc/server";
 import { type CreateNextContextOptions } from "@trpc/server/adapters/next";
 
+// import * as trpc from "@trpc/server";
+// import * as trpcNext from "@trpc/server/adapters/next";
+
 import { prisma } from "../db/client";
 
 /**
@@ -28,3 +31,5 @@ export const createContext = async (opts: CreateNextContextOptions) => {
 };
 
 export type Context = inferAsyncReturnType<typeof createContext>;
+
+// export const createRouter = () => trpc.router<Context>();
