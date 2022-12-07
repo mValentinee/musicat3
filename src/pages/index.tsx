@@ -24,6 +24,8 @@ const Home: NextPage = () => {
   //   queryFn: fetchMusic,
   // });
 
+  const { data, isLoading } = trpc.getMusic.getRecentlyAdded;
+
   //TODO receive components & hydrate them with data upon render
 
   // use zustard to hydrate the components

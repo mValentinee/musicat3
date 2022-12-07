@@ -11,15 +11,20 @@ datasource db {
   url = env("DATABASE_URL")
 }
 
-model Example {
-  id        String   @id @default(cuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+
+model Playlist {
+  playlistId Int @id
+  tracks Tracks[]
+  
 }
 
-// model PlayList {
-//   id   String @id
-//   tracks {
-//     items [{}]
-//   }
-// }
+model Tracks {
+  playlistId Int
+  trackId        Int   @id @unique 
+  permaLink String  @unique
+  title String @unique
+  artworkURL String @unique
+  waveformURL String @unique
+  stationPermaLink String @unique
+  Playlist Playlist @relation(references: [playlistId], fields: [playlistId])
+}

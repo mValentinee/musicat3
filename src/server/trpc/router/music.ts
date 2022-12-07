@@ -35,37 +35,28 @@ type PlaylistType = {
 };
 
 // fetch playlist function
-const fetchPlaylist = async () => {
-  try {
-    // fetch playlist data
-    const res = await fetch(
-      `${SoundCloud_Scraper_API_Playlist_URL}${recently_Added_Playlist_Id}`,
-      options
-    );
+// const fetchPlaylist = async () => {
+//   try {
+//     // fetch playlist data
+//     const res = await fetch(
+//       `${SoundCloud_Scraper_API_Playlist_URL}${recently_Added_Playlist_Id}`,
+//       options
+//     );
 
-    const recentlyAdded = (await res.json()) as PlaylistType;
-    return recentlyAdded;
-  } catch (err) {
-    throw new TRPCError({
-      code: "INTERNAL_SERVER_ERROR",
-      message: (err as any).message,
-    });
-  }
-};
-
-// router to get/collect musical data
-// export const musicRouter = router({
-//   getMusic: publicProcedure.query(fetchPlaylist),
-// });
+//     const recentlyAdded = (await res.json()) as PlaylistType;
+//     return recentlyAdded;
+//   } catch (err) {
+//     throw new TRPCError({
+//       code: "INTERNAL_SERVER_ERROR",
+//       message: (err as any).message,
+//     });
+//   }
+// };
 
 export const musicRouter = router({
-  getmusic: publicProcedure
-    .input(
-      z.object({
-        fetchPlaylist: z.object({}),
-      })
-    )
-    .query(async ({ input }) => {
-      return;
-    }),
+  getRecentlyAdded: publicProcedure.query(async ({ ctx, input }) => {
+    return;
+  }),
 });
+
+//Maybe an alternative would be not to use trpc's generated useQuery and instead use useQuery directly calling trpc's generated query function for the data myself
