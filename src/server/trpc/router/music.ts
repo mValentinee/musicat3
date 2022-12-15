@@ -4,6 +4,7 @@ import { TRPCError } from "@trpc/server";
 import { router, publicProcedure } from "../trpc";
 import { PlaylistResponse } from "../../../constants/music.constants";
 import { PlaylistRefactored } from "../../../constants/music.constants";
+import { PrismaClient } from "@prisma/client";
 
 // header options
 const options = {
@@ -28,9 +29,19 @@ const fetch_RECENTLYADDED_PLAYLIST = async () => {
       `${SoundCloud_Scraper_API_Playlist_URL}${recently_Added_Playlist_Id}`,
       options
     );
-
     const recentlyAdded = (await res.json()) as PlaylistResponse;
-    return recentlyAdded;
+    // create function to refactor fetched playlist data to match type PlaylistRefactored
+    const refactorPlaylist = (
+      playlist: PlaylistResponse
+    ): PlaylistRefactored => {
+      const refactoredPlaylist = {
+        playlistID: playlist.playlistID,
+        tracks: playlist.tracks.items,
+      };
+      return refactoredPlaylist;
+    };
+    // return refactored playlist data
+    return refactorPlaylist(recentlyAdded);
   } catch (err) {
     throw new TRPCError({
       code: "INTERNAL_SERVER_ERROR",
@@ -48,19 +59,9 @@ export const musicRouter = router({
       // if not, fetch playlist from soundcloud scraper api
       const fetchedPlaylist = await fetch_RECENTLYADDED_PLAYLIST();
 
-      // create function to refactor fetched playlist data to match type PlaylistRefactored
-      const refactorPlaylist = (
-        playlist: PlaylistResponse
-      ): PlaylistRefactored => {
-        const refactoredPlaylist = {
-          playlistID: playlist.playlistID,
-          tracks: playlist.tracks.items,
-        };
-        return refactoredPlaylist;
-      };
       // push refactored playlist to db and return it to client
       return await prisma.playlist.create({
-        data: refactorPlaylist(fetchedPlaylist),
+        data: fetchedPlaylist,
       });
     } else {
       // if playlist exists in db, return it to client
