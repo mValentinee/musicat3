@@ -8,6 +8,7 @@ import { appRouter } from "../../../server/trpc/router/_app";
 export default createNextApiHandler({
   router: appRouter,
   createContext,
+  //TODO cache for query. needs to send data to database
   responseMeta({ ctx, paths, type, errors }) {
     // assuming you have all your public routes with the keyword `public` in them
     const allPublic = paths && paths.every((path) => path.includes("public"));

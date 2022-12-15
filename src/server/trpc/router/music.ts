@@ -2,6 +2,8 @@
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
 import { router, publicProcedure } from "../trpc";
+import { PlaylistResponse } from "../../../constants/music.constants";
+import { PlaylistRefactored } from "../../../constants/music.constants";
 
 // header options
 const options = {
@@ -18,44 +20,52 @@ const SoundCloud_Scraper_API_Playlist_URL =
 // playlist ID(s)
 const recently_Added_Playlist_Id = "%2Fv-val-1%2Fsets%2Fmusicarecentlyadded";
 
-type PlaylistType = {
-  playlistID: number;
-  tracks: {
-    items: [
-      {
-        id: number;
-        permalink: string;
-        title: string;
-        artworkUrl: string;
-        waveformUrl: string;
-        stationPermalink: string;
-      }
-    ];
-  };
+// fetch playlist function
+const fetch_RECENTLYADDED_PLAYLIST = async () => {
+  try {
+    // fetch playlist data
+    const res = await fetch(
+      `${SoundCloud_Scraper_API_Playlist_URL}${recently_Added_Playlist_Id}`,
+      options
+    );
+
+    const recentlyAdded = (await res.json()) as PlaylistResponse;
+    return recentlyAdded;
+  } catch (err) {
+    throw new TRPCError({
+      code: "INTERNAL_SERVER_ERROR",
+      message: (err as any).message,
+    });
+  }
 };
 
-// fetch playlist function
-// const fetchPlaylist = async () => {
-//   try {
-//     // fetch playlist data
-//     const res = await fetch(
-//       `${SoundCloud_Scraper_API_Playlist_URL}${recently_Added_Playlist_Id}`,
-//       options
-//     );
-
-//     const recentlyAdded = (await res.json()) as PlaylistType;
-//     return recentlyAdded;
-//   } catch (err) {
-//     throw new TRPCError({
-//       code: "INTERNAL_SERVER_ERROR",
-//       message: (err as any).message,
-//     });
-//   }
-// };
-
 export const musicRouter = router({
-  getRecentlyAdded: publicProcedure.query(async ({ ctx, input }) => {
-    return;
+  getRecentlyAdded: publicProcedure.query(async ({ ctx }) => {
+    const { prisma } = ctx;
+
+    // check if playlist exists in db
+    if (!prisma.playlist) {
+      // if not, fetch playlist from soundcloud scraper api
+      const fetchedPlaylist = await fetch_RECENTLYADDED_PLAYLIST();
+
+      // create function to refactor fetched playlist data to match type PlaylistRefactored
+      const refactorPlaylist = (
+        playlist: PlaylistResponse
+      ): PlaylistRefactored => {
+        const refactoredPlaylist = {
+          playlistID: playlist.playlistID,
+          tracks: playlist.tracks.items,
+        };
+        return refactoredPlaylist;
+      };
+      // push refactored playlist to db and return it to client
+      return await prisma.playlist.create({
+        data: refactorPlaylist(fetchedPlaylist),
+      });
+    } else {
+      // if playlist exists in db, return it to client
+      return await prisma.playlist.findUnique({ where: { playlistID: 1 } });
+    }
   }),
 });
 

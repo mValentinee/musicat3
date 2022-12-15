@@ -1,5 +1,4 @@
 import { router } from "../trpc";
-import { exampleRouter } from "./example";
 import { musicRouter } from "./music";
 
 export const appRouter = router({

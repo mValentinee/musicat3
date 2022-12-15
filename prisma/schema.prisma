@@ -13,18 +13,18 @@ datasource db {
 
 
 model Playlist {
-  playlistId Int @id
+  playlistID Int @id
   tracks Tracks[]
   
 }
 
 model Tracks {
-  playlistId Int
-  trackId        Int   @id @unique 
+  playlistID Int
+  trackID        Int   @id @unique 
   permaLink String  @unique
   title String @unique
   artworkURL String @unique
   waveformURL String @unique
   stationPermaLink String @unique
-  Playlist Playlist @relation(references: [playlistId], fields: [playlistId])
+  Playlist Playlist @relation(references: [playlistID], fields: [playlistID])
 }
