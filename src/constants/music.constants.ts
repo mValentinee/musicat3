@@ -19,6 +19,7 @@ const PlaylistResponse = z.object({
 
 // zod schema for refactored playlist response
 const PlaylistRefactored = z.object({
+  id: z.number(),
   playlistID: z.number(),
   tracks: z.array(
     z.object({

@@ -2,9 +2,8 @@
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
 import { router, publicProcedure } from "../trpc";
-import { PlaylistResponse } from "../../../constants/music.constants";
-import { PlaylistRefactored } from "../../../constants/music.constants";
-import { PrismaClient } from "@prisma/client";
+import { type PlaylistResponse } from "../../../constants/music.constants";
+import { type PlaylistRefactored } from "../../../constants/music.constants";
 
 // header options
 const options = {
@@ -52,21 +51,33 @@ const fetch_RECENTLYADDED_PLAYLIST = async () => {
 
 export const musicRouter = router({
   getRecentlyAdded: publicProcedure.query(async ({ ctx }) => {
+    // get prisma client
     const { prisma } = ctx;
-
-    // check if playlist exists in db
-    if (!prisma.playlist) {
+    // get playlist from db
+    const playlist = await prisma.playlist.findUnique({ where: { id: 1 } });
+    // if playlist is empty, fetch playlist from soundcloud scraper api
+    if (!playlist) {
       // if not, fetch playlist from soundcloud scraper api
       const fetchedPlaylist = await fetch_RECENTLYADDED_PLAYLIST();
 
       // push refactored playlist to db and return it to client
       return await prisma.playlist.create({
-        data: fetchedPlaylist,
+        // create playlist in db matching type PlaylistRefactored
+        data: {
+          id: 1,
+          playlistID: fetchedPlaylist.playlistID,
+          tracks: {
+            create: fetchedPlaylist.tracks,
+          },
+        },
+        // include tracks in playlist
+        include: {
+          tracks: true,
+        },
       });
-    } else {
-      // if playlist exists in db, return it to client
-      return await prisma.playlist.findUnique({ where: { playlistID: 1 } });
     }
+    // if playlist exists in db, return it to client
+    return await playlist;
   }),
 });
 
