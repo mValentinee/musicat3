@@ -39,14 +39,14 @@ export const HomeCover = () => {
       </div>
 
       {/* artist image */}
-      <div className="relative hidden h-full w-[320px] md:block">
+      {/* <div className="relative hidden h-full w-[320px] md:block">
         <Image
           src={Artist}
           alt="main-photo"
           layout="fill"
           objectFit="contain"
         />
-      </div>
+      </div> */}
     </div>
   );
 };

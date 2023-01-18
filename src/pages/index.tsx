@@ -1,10 +1,15 @@
-import { useQuery } from "@tanstack/react-query";
 import { type NextPage } from "next";
 import { HomeCover } from "../components/home";
-import TopCharts from "../components/likedCharts";
+import RecentlyAddedPlaylist from "../components/recentlyAdded";
 import { trpc } from "../utils/trpc";
-import { record } from "././api/test";
-
+import {
+  type PlaylistRefactored,
+  type PlaylistResponse,
+} from "../constants/music.constants";
+import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { fetch_PLAYLIST } from "../utils/fetch";
+//
 /***
  * //TODO
  * 
@@ -18,38 +23,43 @@ import { record } from "././api/test";
  User log in/out 
  */
 
+//BUGS backend & frontend is not in sync .
+
+// confused how can the data be undefined when it is being fetched from the backend. & the cilent side is receiving the data
+
+// no matter what procedure both are reading undefined from the backend
+// what if the cilent isnt actually receving but showing the data saved in the DB like a screenshot
+
 const Home: NextPage = () => {
-  // const { data, status } = useQuery({
-  //   queryKey: ["musicData"],
-  //   queryFn: fetchMusic,
-  // });
+  // const playlist = trpc.GETmusic.GETmusicProcedure.useQuery();
+  // const mutate = trpc.CRUDmusic.crudMusic.useMutation();
+  // if (playlist.isSuccess) {
+  //   mutate.mutate({
+  //     recentlyAdded: playlist.data[0],
+  //     recommended: playlist.data[1],
+  //   });
+  // }
+  // playlist.mutate();
 
-  const { data, isLoading } = trpc.getMusic.getRecentlyAdded;
+  const [recentlyAdded, setRecentlyAdded] = useState<object>({});
+  const { data } = trpc.GETmusic.getPlaylist.useQuery(1);
+  console.log(data, typeof data);
+  // setRecentlyAdded(data);
 
-  //TODO receive components & hydrate them with data upon render
-
-  // use zustard to hydrate the components
+  // deconstruct data to expose every field inside the array
 
   return (
     <>
       <section className="pb-[120px]">
         <div className="mt-5 flex flex-col justify-between xl:flex-row">
-          here
           {/* curated playlist */}
           {/* <HomeCover /> */}
-          {/* {<TopCharts data={data} />} */}
+          {/* {<LikedChart data={data} />} */}
+          <RecentlyAddedPlaylist />
         </div>
       </section>
     </>
   );
 };
-
-//TODO make api call here to receive music. serverside ?
-// useQuery to get the fetch call ??
-/**
- * Deezer Api
- * Spotify
- * Soundcloud
- */
 
 export default Home;

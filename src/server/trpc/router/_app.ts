@@ -1,8 +1,10 @@
 import { router } from "../trpc";
-import { musicRouter } from "./music";
+import { GETMusicRouter } from "./GETmusic";
+import { CRUDMusicRouter } from "./CRUDmusic";
 
 export const appRouter = router({
-  getMusic: musicRouter,
+  GETmusic: GETMusicRouter,
+  CRUDmusic: CRUDMusicRouter,
 });
 
 // export type definition of API

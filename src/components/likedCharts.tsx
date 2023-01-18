@@ -5,7 +5,7 @@ import type { FC } from "react";
  *TODO just get the api data, try through trpc , understand react query
  */
 
-type topChartsProps = {
+type ChartCardProps = {
   data: string[];
 };
 
@@ -27,13 +27,8 @@ const ChartCardMarkUp = ({}) => {
   );
 };
 
-const TopCharts: FC<topChartsProps> = ({}) => {
-  return (
-    <div>
-      topCharts
-      <div></div>
-    </div>
-  );
+const LikedChart: FC<ChartCardProps> = ({}) => {
+  return <div>LikedChart</div>;
 };
 
-export default TopCharts;
+export default LikedChart;
