@@ -1,38 +1,44 @@
-import type { FC } from "react";
+import { type NextPage } from "next";
 import { trpc } from "../utils/trpc";
-import { PlaylistRefactored } from "../constants/music.constants";
-import { useState } from "react";
 
-/**
- *TODO just get the api data, try through trpc , understand react query
- */
+const RecentlyAddedPlaylist: NextPage = () => {
+  // type to represent tracks in playlist
+  type Tracks = {
+    id: number;
+    permalink: string;
+    title: string;
+    artworkUrl: string;
+    waveformUrl: string;
+    stationPermalink: string;
+  };
 
-// RecentlyAdded Playlist statisfies PlaylistRefactored:
-type RecentlyAddedProps = PlaylistRefactored;
+  // markup for music card
+  const MusicCard = ({ track }: { track: Tracks }) => {
+    return (
+      <div className="flex flex-col items-center gap-3">
+        <div className="relative h-[200px] w-[200px]">
+          <Image />
+        </div>
+      </div>
+    );
+  };
 
-const RecentlyAddedMarkUp = ({}) => {
-  // const { key, number }<> = [
-  //   {
-  //     "key": 1,
-  //   },
-  //   {
-  //     "key": 2,
-  //   },
-  // ];
+  // use trpc router to get playlist
+  const { data, isLoading } = trpc.playlist.getPlaylist.useQuery(1);
+  const tracks = data?.tracks;
 
   return (
-    <div className=".absolute">
-      {"key"}
-      {"number"}
-    </div>
+    <>
+      <title>Recently Added</title>
+      <div>
+        {isLoading
+          ? "Loading..."
+          : tracks?.map((track: Tracks) => {
+              return <div key={track.id}>{track.title}</div>;
+            })}
+      </div>
+    </>
   );
-};
-
-const RecentlyAddedPlaylist = () => {
-  // use trpc router to get playlist
-  const [playlist, setPlaylist] = useState<RecentlyAddedProps[]>([]);
-
-  return <div>Recently Added</div>;
 };
 
 export default RecentlyAddedPlaylist;

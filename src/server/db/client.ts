@@ -17,6 +17,3 @@ export const prisma =
 if (env.NODE_ENV !== "production") {
   global.prisma = prisma;
 }
-
-// http://127.0.0.1:8090
-// http://localhost:8090

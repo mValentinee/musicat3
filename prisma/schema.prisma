@@ -7,14 +7,11 @@ generator client {
 
 datasource db {
   provider = "sqlite"
-  // url = "file:./.env"
   url = env("DATABASE_URL")
-
 }
 
 model Playlist {
   id                Int      @id @default(autoincrement())
-  // playlistName      String
   playlistID        Int     
   tracks            Track[]
 }
