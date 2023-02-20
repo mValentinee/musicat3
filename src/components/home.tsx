@@ -5,11 +5,10 @@ import { Heart } from "iconsax-react";
 
 export const HomeCover = () => {
   return (
-    // curated playlist
     <div className="relative mx-auto mb-10 flex h-[450px] w-[95%] justify-around overflow-hidden rounded-2xl bg-[#609EAF] md:rounded-[50px] xl:mx-0 xl:mb-0 xl:w-[55%]">
       {/* text */}
       <div className="mx-auto flex w-[80%] flex-col justify-evenly md:mx-0 md:w-[35%]">
-        <p className="mb-36 md:mb-0">Curated Playlist </p>
+        <p className="text-center">Curated Playlist Not For Commerical Use</p>
         <div>
           <h1 className="mb-3 text-center  text-2xl font-bold">
             Music Collected From Soundcloud
@@ -28,13 +27,7 @@ export const HomeCover = () => {
       {/* spiral image */}
       <div className="absolute right-[-120px] md:left-0">
         <div className="relative h-[180px] w-[300px] rotate-[17deg] scale-x-[-1] md:h-[500px] md:w-[700px] md:rotate-0 md:scale-x-[1] ">
-          <Image
-            src={spiralBg}
-            alt="main-photo"
-            layout="fill"
-            objectFit="cover"
-            priority={true}
-          />
+          <Image src={spiralBg} alt="main-photo" fill />
         </div>
       </div>
 
