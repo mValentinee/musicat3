@@ -5,13 +5,13 @@ import { Heart } from "iconsax-react";
 
 export const HomeCover = () => {
   return (
-    <div className="relative mx-auto mb-10 flex h-[450px] w-[95%] justify-around overflow-hidden rounded-2xl bg-[#609EAF] md:rounded-[50px] xl:mx-0 xl:mb-0 xl:w-[55%]">
+    <div className="relative mx-auto mb-10 flex h-[450px] w-[95%] justify-around overflow-hidden rounded-2xl bg-[#274953] md:rounded-[50px] xl:mx-0 xl:mb-0 xl:w-[55%]">
       {/* text */}
       <div className="mx-auto flex w-[80%] flex-col justify-evenly md:mx-0 md:w-[35%]">
         <p className="text-center">Curated Playlist Not For Commerical Use</p>
         <div>
-          <h1 className="mb-3 text-center  text-2xl font-bold">
-            Music Collected From Soundcloud
+          <h1 className="mb-3 text-center text-2xl font-bold">
+            Music Collected From Soundcloud API
           </h1>
           <p className="w-[85%] text-center text-sm md:w-full md:text-base">
             Some Of My Favorite Dance Bops
