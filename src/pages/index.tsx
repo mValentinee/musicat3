@@ -4,26 +4,21 @@ import {
   RecentlyAddedPlaylist,
   RecommendedPlaylist,
 } from "../components/recentlyAdded";
+import { AudioPlayer } from "../components/audioPlayer";
 import { trpc } from "../utils/trpc";
-
-//
-/***
- * //TODO
- *main functionalilty  
- Search(udemy projects), Like, Save liked to new list, Route Home Icon,NavBar, MediaPlayer (nav should have similar values), Play / Pause / Skip
- */
 
 const Home: NextPage = () => {
   return (
-    <>
-      <div className="mt-5 flex flex-col justify-between p-3 xl:flex-row">
-        <HomeCover />
-      </div>
+    <div className="before:opacity-15 flex-col justify-between bg-gradient-to-r from-t3-purple-50 to-t3-purple-1000 before:absolute before:inset-0 before:block before:h-full before:w-full before:bg-[url('/images/background-pattern.svg')] before:bg-cover before:bg-no-repeat xl:flex-row">
+      <HomeCover />
+      <AudioPlayer />
+      {/* <div className="flex flex-col justify-between p-3 xl:flex-row">  <HomeCover /> </div> */}
       <div className=" p-3">
         <RecentlyAddedPlaylist />
         <RecommendedPlaylist />
       </div>
-    </>
+      music
+    </div>
   );
 };
 

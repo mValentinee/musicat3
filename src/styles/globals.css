@@ -4,15 +4,44 @@
 
 @layer base {
   * {
-    padding: 0;
+    /* padding: 0;
     margin: 0;
-    box-sizing: border-box;
+    box-sizing: border-box; */
   }
 
   body {
-    font-family: "Quicksand", Tahoma, sans-serif;
-    color: #fff;
-    background-color: #1d2123;
+    font-family: "Bigelow Rules", cursive;
+    font-family: "Quicksand", sans-serif;
+    color: #f8f4f4;
+    /* background-color: #1e1e1e; */
+    --color-default: 236 228 236;
+    --color-neutral: 29 40 58;
+    --color-primary: 112 64 255;
+    --color-secondary: 58 191 248;
+    --color-accent: 244 113 181;
+    --color-warning: 244 193 82;
+    --color-error: 251 111 132;
+    --color-success: 43 212 189;
+    --color-info: 12 166 233;
+    --color-foreground: 15 23 42;
+    --color-background: 236 228 236;
+
+    @apply bg-default text-slate-900;
+
+    /* background-color: var(--color-background); */
+    --color-default: 15 23 41;
+    --color-neutral: 29 40 58;
+    --color-primary: 112 64 255;
+    --color-secondary: 58 191 248;
+    --color-accent: 244 113 181;
+    --color-warning: 244 193 82;
+    --color-error: 251 111 132;
+    --color-success: 43 212 189;
+    --color-info: 12 166 233;
+    --color-foreground: 232 221 255;
+    --color-background: 15 23 41;
+
+    @apply bg-default text-t3-purple-100;
   }
 
   a {
@@ -22,5 +51,43 @@
 
   li {
     list-style: none;
+  }
+}
+
+desktopnav.js .navlink-animation {
+  @apply transition ease-in-out hover:scale-100 hover:text-[#FACD66] hover:opacity-100;
+}
+
+@layer utilities {
+  .content-auto {
+    content-visibility: auto;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    width: 1px;
+  }
+
+  .no-scrollbar::-webkit-scrollbar-thumb {
+    background: transparent;
+    border-radius: 30px;
+    border: 1px solid gray;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: 1px;
+  }
+
+  .noSelect {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+  .noSelect:focus {
+    outline: none !important;
   }
 }
