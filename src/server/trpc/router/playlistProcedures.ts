@@ -3,7 +3,7 @@ import { router, publicProcedure } from "../trpc";
 import {
   type PlaylistResponse,
   refactorPlaylist,
-} from "../../../schemas/music.schemas";
+} from "../../../helpers/music.schemas";
 import { z } from "zod";
 
 // header options
