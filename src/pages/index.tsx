@@ -10,7 +10,12 @@ import { Heart } from "iconsax-react";
 import Artist from "../../public/images/CoverArtist.png";
 import { useState } from "react";
 
+import { trpc } from "../utils/trpc";
+
 const Home: NextPage = () => {
+  // mutation to add playlist to database
+  const mutate = trpc.playlist.FetchAndCreatePlaylist.useMutation();
+
   const [liked, setLiked] = useState(false);
 
   return (
